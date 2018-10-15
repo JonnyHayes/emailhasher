@@ -1,0 +1,52 @@
+#
+# service: my-service
+#
+# provider:
+#   name: aws
+#   runtime: nodejs6.10
+#
+# functions:
+#   submit:
+#     handler: emailhasher.submit
+#
+#
+#
+
+
+
+
+service: my-service
+
+frameworkVersion: ">=1.1.0 <2.0.0"
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  stage: dev
+  region: us-east-1
+
+plugins:
+  - serverless-offline
+
+functions:
+  emailSubmission:
+    handler: api/emailhasher.submit
+    memorySize: 128
+    description: Hash email form entry .
+    events:
+      - http:
+          path: emailhasher
+          method: post
+
+
+  showPage:
+    handler: api/poster.submit
+    memorySize: 128
+    description: Spit out webpage .
+    events:
+      - http:
+          path: poster
+          method: get
+    cors:
+        origins:
+          - ‘*’
